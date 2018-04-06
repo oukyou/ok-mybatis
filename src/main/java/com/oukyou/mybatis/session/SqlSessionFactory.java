@@ -24,7 +24,6 @@ public final class SqlSessionFactory {
 	 * 创建sql会话工厂
 	 * 
 	 * @param configuration 配置中心
-	 * @param executor 执行器
 	 * @return sql会话
 	 */
 	public static SqlSession createSqlSession(Configuration configuration) {

@@ -46,8 +46,6 @@ public final class PropertyUtil {
 		try {
 			String urL = PropertyUtil.class.getClassLoader().getResource("").getPath();
 			File dirFile = new File(urL, PROPERTY_DIR_PATH);
-			dirFile.isDirectory();
-			dirFile.getAbsolutePath();
 
 			for (File file : dirFile.listFiles()) {
 				fileName = file.getName();

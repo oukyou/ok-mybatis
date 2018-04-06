@@ -22,6 +22,7 @@ public interface Cache {
 	 * 取得指定key缓存值
 	 * 
 	 * @param key 缓存key
+	 * @return 指定key缓存值
 	 */
 	public Object getObject(Object key);
 

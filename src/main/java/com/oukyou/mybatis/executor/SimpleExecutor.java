@@ -53,9 +53,4 @@ public final class SimpleExecutor implements Executor {
 
 		return effectResult;
 	}
-
-	public String createCacheKey() {
-		
-		return null;
-	}
 }
