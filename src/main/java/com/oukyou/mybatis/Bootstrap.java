@@ -32,12 +32,17 @@ public final class Bootstrap {
 		List<User> userList = userMapper.selectList("テスト");
 		System.out.println(userList);
 
+		//读取缓存
 		user = userMapper.selectOne(1);
 		System.out.println(user);
 
 		// 插入数据库
 		int insertResult = userMapper.insert("Oukyou", 31);
 		System.out.println(insertResult);
+		
+		// 数据库执行了更新操作，缓存清除，重新检索数据库
+		user = userMapper.selectOne(1);
+		System.out.println(user);
 
 		// 更新数据库
 		int updateResult = userMapper.update(18, "Oukyou");

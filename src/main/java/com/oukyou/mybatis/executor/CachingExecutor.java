@@ -46,7 +46,7 @@ public final class CachingExecutor implements Executor {
 		String key = createCacheKey(sql, param, returnType);
 		// 缓存中存在，则返回缓存中值
 		if (cache.getObject(key) != null) {
-			System.out.println("返回缓存值。");
+			System.out.print("返回缓存值: ");
 			return (List<E>) cache.getObject(key);
 		}
 
