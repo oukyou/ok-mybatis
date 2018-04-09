@@ -82,6 +82,8 @@ public final class CachingExecutor implements Executor {
 			for (Object obj : objects) {
 				builder.append(obj.getClass());
 				builder.append(COMMA);
+				builder.append(obj);
+				builder.append(COMMA);
 			}
 		}
 		builder.append(returnType.toString());

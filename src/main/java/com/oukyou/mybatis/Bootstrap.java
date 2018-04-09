@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.oukyou.mybatis.bootstrap.entity.User;
 import com.oukyou.mybatis.bootstrap.mapper.UserMapper;
+import com.oukyou.mybatis.bootstrap.plugin.ExecutorQueryPlugin;
+import com.oukyou.mybatis.bootstrap.plugin.ExecutorUpdatePlugin;
 import com.oukyou.mybatis.configuration.Configuration;
 import com.oukyou.mybatis.session.SqlSession;
 import com.oukyou.mybatis.session.SqlSessionFactory;
@@ -32,14 +34,14 @@ public final class Bootstrap {
 		List<User> userList = userMapper.selectList("テスト");
 		System.out.println(userList);
 
-		//读取缓存
+		// 读取缓存
 		user = userMapper.selectOne(1);
 		System.out.println(user);
 
 		// 插入数据库
 		int insertResult = userMapper.insert("Oukyou", 31);
 		System.out.println(insertResult);
-		
+
 		// 数据库执行了更新操作，缓存清除，重新检索数据库
 		user = userMapper.selectOne(1);
 		System.out.println(user);
@@ -61,7 +63,12 @@ public final class Bootstrap {
 	 */
 	private static Configuration initConfiguration() throws Exception {
 		Configuration config = new Configuration();
+		// 添加mapper
 		config.addMapper(UserMapper.class);
+
+		// 添加拦截器
+		config.addInterceptor(new ExecutorQueryPlugin());
+		config.addInterceptor(new ExecutorUpdatePlugin());
 
 		return config;
 	}

@@ -11,6 +11,8 @@ import java.lang.reflect.Proxy;
 import com.oukyou.mybatis.executor.CachingExecutor;
 import com.oukyou.mybatis.executor.Executor;
 import com.oukyou.mybatis.executor.SimpleExecutor;
+import com.oukyou.mybatis.plugins.Interceptor;
+import com.oukyou.mybatis.plugins.InterceptorChain;
 import com.oukyou.mybatis.proxy.MapperProxy;
 import com.oukyou.mybatis.session.SqlSession;
 
@@ -18,6 +20,11 @@ import com.oukyou.mybatis.session.SqlSession;
  * 配置中心
  */
 public final class Configuration {
+
+	/**
+	 * 拦截器链
+	 */
+	private final InterceptorChain interceptorChain = new InterceptorChain();
 
 	/**
 	 * 一级缓存开启
@@ -75,6 +82,8 @@ public final class Configuration {
 			executor = new CachingExecutor(executor);
 		}
 
+		//
+		executor = (Executor) interceptorChain.interceptorAll(executor);
 		return executor;
 	}
 
@@ -94,5 +103,14 @@ public final class Configuration {
 	 */
 	public void setCacheEnabled(boolean cacheEnabled) {
 		this.cacheEnabled = cacheEnabled;
+	}
+
+	/**
+	 * 添加拦截器
+	 * 
+	 * @param interceptor
+	 */
+	public void addInterceptor(Interceptor interceptor) {
+		interceptorChain.addInterceptor(interceptor);
 	}
 }

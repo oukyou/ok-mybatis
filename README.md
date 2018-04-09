@@ -12,7 +12,8 @@
   - 通过注解获取sql
   - sql中参数为基本类型的增删改查（查询的返回类型是实体类或者集合类）
   - 一级缓存（默认开启）
-
+  - Executor层面的拦截功能（插件）
+  
 #### 2.2 后续时间允许的话想实现的功能：
   - _懒加载（需要用到cglib动态代理）_
   - _sql语句中参数为引用类型的增删改查_
@@ -54,11 +55,14 @@ public interface UserMapper {
 }
 ```
 
-#### 3.3 将Mapper注册到配置中心
+
+
+#### 3.3 初始化配置中心
 
   示例代码：
 ```
 Configuration config = new Configuration();
+// 添加mapper
 config.addMapper(UserMapper.class);
 ```
 
@@ -73,7 +77,28 @@ UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 User user = userMapper.selectOne(1);
 ```
 
-### 4. 类图概览
+### 4. Executor层面的拦截功能(插件)
+  
+  定义一个类实现`Interceptor`接口，添加`@Intercepts`,`@Signature`注解，将该拦截器加到配置中心即可
+
+  添加拦截器示例代码：
+```
+// 添加拦截器
+config.addInterceptor(new ExecutorQueryPlugin());
+config.addInterceptor(new ExecutorUpdatePlugin());
+```
+
+  自定义拦插件示例代码
+```
+/**
+ * 执行器拦截插件<br>
+ * 拦截查询方法
+ */
+@Intercepts({@Signature(type = Executor.class, method = "doQuery", args = { String.class, Object.class, Class.class }) })
+public class ExecutorQueryPlugin implements Interceptor
+```
+
+### 5. 类图概览
 
 ![类图](class.png)
 
